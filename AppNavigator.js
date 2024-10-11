@@ -11,7 +11,7 @@ export default function AppNavigator() {
     <NavigationContainer>
       <Stack.Navigator>
         <Stack.Screen name="People" component={PeopleScreen} />
-        <Stack.Screen name="AddPerson" component={AddPersonScreen} />
+        <Stack.Screen name="Add Person" component={AddPersonScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );

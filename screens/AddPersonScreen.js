@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react';
-import { View, TextInput, Button } from 'react-native';
+import { View, TextInput, Button, Text, StyleSheet } from 'react-native';
 import PeopleContext from '../PeopleContext';
 import { useNavigation } from '@react-navigation/native';
 
@@ -17,7 +17,8 @@ export default function AddPersonScreen() {
   };
   return (
     <View>
-      <TextInput placeholder="Name" value={name} onChangeText={setName} />
+      <Text style={styles.title}>Add a Person</Text>
+      <TextInput placeholder=" Person Name" value={name} onChangeText={setName} />
       <TextInput placeholder="2003-01-03" value={dob} onChangeText={setDob} />
 
       <Button title="Save" onPress={savePerson} />
@@ -25,3 +26,17 @@ export default function AddPersonScreen() {
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    borderTopWidth: 2,
+    borderColor: '#ddd',
+    padding: 20
+  },
+  title: {
+    fontSize: 30,
+    paddingTop: 20,
+    paddingLeft: 20
+  }
+});
