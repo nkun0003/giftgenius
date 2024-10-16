@@ -30,8 +30,8 @@ export default function PeopleScreen() {
             keyExtractor={(item) => item.id}
             renderItem={({ item }) => (
               <View style={styles.people}>
-                <Text>{item.name}</Text>
-                <Text>{item.dob}</Text>
+                <Text style={styles.name}>{item.name}</Text>
+                <Text style={styles.dob}>{item.dob}</Text>
               </View>
             )}
           />
@@ -50,24 +50,27 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     borderTopWidth: 2,
-    borderColor: '#ddd',
-    padding: 20
+    borderColor: '#ddd'
   },
   title: {
     fontSize: 30,
     paddingTop: 20,
-    paddingLeft: 20,
-    textAlign: 'center'
+    paddingBottom: 20,
+    paddingLeft: 10
   },
   people: {
     borderBottomWidth: 1,
-    borderColor: '#ddd',
-    padding: 10,
-    marginBottom: 10,
-    marginLeft: 20,
-    justifyContent: 'space-between',
-    flexDirection: 'row',
-    alignItems: 'center'
+    borderColor: '#606060',
+    padding: 15,
+    backgroundColor: '#d3d3d3',
+    marginHorizontal: 10
+  },
+  name: {
+    fontSize: 20
+  },
+  dob: {
+    fontSize: 15,
+    color: '#606060'
   },
   savedText: {
     textAlign: 'center',
