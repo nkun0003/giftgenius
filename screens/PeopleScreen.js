@@ -29,7 +29,7 @@ export default function PeopleScreen() {
             data={people}
             keyExtractor={(item) => item.id}
             renderItem={({ item }) => (
-              <View>
+              <View style={styles.people}>
                 <Text>{item.name}</Text>
                 <Text>{item.dob}</Text>
               </View>
@@ -58,6 +58,16 @@ const styles = StyleSheet.create({
     paddingTop: 20,
     paddingLeft: 20,
     textAlign: 'center'
+  },
+  people: {
+    borderBottomWidth: 1,
+    borderColor: '#ddd',
+    padding: 10,
+    marginBottom: 10,
+    marginLeft: 20,
+    justifyContent: 'space-between',
+    flexDirection: 'row',
+    alignItems: 'center'
   },
   savedText: {
     textAlign: 'center',
