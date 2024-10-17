@@ -39,9 +39,13 @@ export default function PeopleScreen() {
             keyExtractor={(item) => item.id}
             renderItem={({ item }) => (
               <View style={styles.people}>
-                <Text style={styles.name}>{item.name}</Text>
-                <Text style={styles.dob}>{formatDate(item.dob)}</Text>
-                {/* Format and display the date */}
+                <View style={styles.nameAndDateContainer}>
+                  <Text style={styles.name}>{item.name}</Text>
+                  <Text style={styles.dob}>{formatDate(item.dob)}</Text>
+                </View>
+                <TouchableOpacity style={styles.ideaButton} onPress={() => {}}>
+                  <MaterialIcons name="lightbulb" size={45} color="black" />
+                </TouchableOpacity>
               </View>
             )}
           />
@@ -69,11 +73,17 @@ const styles = StyleSheet.create({
     paddingLeft: 10
   },
   people: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
     borderBottomWidth: 1,
     borderColor: '#606060',
     padding: 15,
     backgroundColor: '#d3d3d3',
     marginHorizontal: 10
+  },
+  nameAndDateContainer: {
+    flexDirection: 'column'
   },
   name: {
     fontSize: 20
@@ -81,6 +91,9 @@ const styles = StyleSheet.create({
   dob: {
     fontSize: 15,
     color: '#606060'
+  },
+  ideaButton: {
+    padding: 5
   },
   savedText: {
     textAlign: 'center',
