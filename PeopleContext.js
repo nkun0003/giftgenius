@@ -6,8 +6,7 @@ const PeopleContext = createContext(); // Creating a new context called PeopleCo
 
 export const PeopleProvider = ({ children }) => {
   // PeopleProvider component will wrap around other components to provide them with access to PeopleContext.
-  // 'children' represents any components nested inside PeopleProvider.
-
+  // 'children' represents any components nested inside PeopleProvider in my app.js.
   const [people, setPeople] = useState([]); // State 'people' is used to store an array of person objects, initially set to an empty array.
 
   const STORAGE_KEY = 'people'; // Key used for storing and retrieving data from AsyncStorage.

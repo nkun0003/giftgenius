@@ -4,7 +4,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import PeopleScreen from './screens/PeopleScreen';
 import AddPersonScreen from './screens/AddPersonScreen';
 
-const Stack = createStackNavigator();
+const Stack = createStackNavigator(); //created "Stack" navigation container for stack navigation
 
 export default function AppNavigator() {
   return (

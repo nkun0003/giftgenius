@@ -13,6 +13,15 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 import PeopleContext from '../PeopleContext';
 import { MaterialIcons } from '@expo/vector-icons';
 
+// Helper function to format the date to 'Month Day' (e.g., 'September 08')
+const formatDate = (dob) => {
+  const date = new Date(dob); //convert the string to a Date object
+  return date.toLocaleDateString('en-US', {
+    month: 'long', //full month name (e.g., "September")
+    day: '2-digit' //two-digit day (e.g., "08")
+  });
+};
+
 export default function PeopleScreen() {
   const navigation = useNavigation();
   const { people } = useContext(PeopleContext);
@@ -21,7 +30,7 @@ export default function PeopleScreen() {
     <SafeAreaProvider>
       <SafeAreaView style={styles.container}>
         <Text style={styles.title}>People List</Text>
-
+        {/*If the array is empty then a message should be displayed on the screen asking the user to add a first Person.*/}
         {people.length === 0 ? (
           <Text style={styles.savedText}>No People Saved Yet.</Text>
         ) : (
@@ -31,7 +40,8 @@ export default function PeopleScreen() {
             renderItem={({ item }) => (
               <View style={styles.people}>
                 <Text style={styles.name}>{item.name}</Text>
-                <Text style={styles.dob}>{item.dob}</Text>
+                <Text style={styles.dob}>{formatDate(item.dob)}</Text>
+                {/* Format and display the date */}
               </View>
             )}
           />
