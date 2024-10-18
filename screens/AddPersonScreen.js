@@ -13,7 +13,7 @@ export default function AddPersonScreen() {
 
   // Function to save the new person
   const savePerson = () => {
-    if (!name) {
+    if (!name || !dob) {
       toggleModal(); //show modal if the name is missing
     } else if (name && dob) {
       addPerson(name, dob); // Save the person to the context
@@ -63,7 +63,7 @@ export default function AddPersonScreen() {
       {/* Modal for missing name */}
       <Modal visible={isModalVisible} transparent={true} animationType="slide">
         <View style={styles.modalView}>
-          <Text style={styles.modalText}>Please add a person name!</Text>
+          <Text style={styles.modalText}>Please add a person name and Date of birth!</Text>
           <TouchableOpacity style={styles.closeButton} onPress={toggleModal}>
             <Text style={styles.closeButtonText}>Close</Text>
           </TouchableOpacity>
