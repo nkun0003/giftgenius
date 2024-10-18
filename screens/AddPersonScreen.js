@@ -1,5 +1,18 @@
 import React, { useContext, useState } from 'react';
-import { View, TextInput, Button, Text, StyleSheet, Modal, TouchableOpacity } from 'react-native';
+import {
+  View,
+  TextInput,
+  Button,
+  Text,
+  StyleSheet,
+  Modal,
+  TouchableOpacity,
+  ScrollView,
+  KeyboardAvoidingView,
+  Platform,
+  TouchableWithoutFeedback,
+  Keyboard
+} from 'react-native';
 import PeopleContext from '../PeopleContext';
 import { useNavigation } from '@react-navigation/native';
 import { Calendar } from 'react-native-calendars';
@@ -14,7 +27,7 @@ export default function AddPersonScreen() {
   // Function to save the new person
   const savePerson = () => {
     if (!name || !dob) {
-      toggleModal(); //show modal if the name is missing
+      toggleModal(); // Show modal if the name or dob is missing
     } else if (name && dob) {
       addPerson(name, dob); // Save the person to the context
       navigation.goBack();
@@ -32,44 +45,50 @@ export default function AddPersonScreen() {
   };
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Add a Person</Text>
+    <KeyboardAvoidingView
+      style={{ flex: 1 }}
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        <View style={styles.container}>
+          <Text style={styles.title}>Add a Person</Text>
 
-      {/* Text input for the person's name */}
-      <TextInput
-        style={styles.inputText}
-        placeholder="Person Name"
-        value={name}
-        onChangeText={setName}
-      />
+          {/* Text input for the person's name */}
+          <TextInput
+            style={styles.inputText}
+            placeholder="Person Name"
+            value={name}
+            onChangeText={setName}
+          />
 
-      {/* Permanent calendar view for date selection */}
-      <Text style={styles.calendarLabel}>Date of Birth:</Text>
-      <Calendar
-        onDayPress={selectDobDate} // Function called when a day is selected
-        markedDates={{
-          [dob]: { selected: true, marked: true, selectedColor: 'blue' }
-        }} // Highlight the selected date
-        theme={{
-          todayTextColor: 'red',
-          arrowColor: 'blue'
-        }}
-      />
+          {/* Permanent calendar view for date selection */}
+          <Text style={styles.calendarLabel}>Date of Birth:</Text>
+          <Calendar
+            onDayPress={selectDobDate} // Function called when a day is selected
+            markedDates={{
+              [dob]: { selected: true, marked: true, selectedColor: 'blue' }
+            }} // Highlight the selected date
+            theme={{
+              todayTextColor: 'red',
+              arrowColor: 'blue'
+            }}
+          />
 
-      {/* Buttons to save or cancel */}
-      <Button class title="Save" onPress={savePerson} />
-      <Button title="Cancel" onPress={() => navigation.goBack()} />
+          {/* Buttons to save or cancel */}
+          <Button title="Save" onPress={savePerson} />
+          <Button title="Cancel" onPress={() => navigation.goBack()} />
 
-      {/* Modal for missing name */}
-      <Modal visible={isModalVisible} transparent={true} animationType="slide">
-        <View style={styles.modalView}>
-          <Text style={styles.modalText}>Please add a person name and Date of birth!</Text>
-          <TouchableOpacity style={styles.closeButton} onPress={toggleModal}>
-            <Text style={styles.closeButtonText}>Close</Text>
-          </TouchableOpacity>
+          {/* Modal for missing name */}
+          <Modal visible={isModalVisible} transparent={true} animationType="slide">
+            <View style={styles.modalView}>
+              <Text style={styles.modalText}>Please add a person name and Date of birth!</Text>
+              <TouchableOpacity style={styles.closeButton} onPress={toggleModal}>
+                <Text style={styles.closeButtonText}>Close</Text>
+              </TouchableOpacity>
+            </View>
+          </Modal>
         </View>
-      </Modal>
-    </View>
+      </TouchableWithoutFeedback>
+    </KeyboardAvoidingView>
   );
 }
 
@@ -109,8 +128,7 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 0.25,
     shadowRadius: 4,
-    // Shadow/Elevation for Android
-    elevation: 5
+    elevation: 5 // Shadow for Android
   },
   modalText: {
     paddingTop: 20,
