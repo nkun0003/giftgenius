@@ -43,7 +43,9 @@ export default function PeopleScreen() {
                   <Text style={styles.name}>{item.name}</Text>
                   <Text style={styles.dob}>{formatDate(item.dob)}</Text>
                 </View>
-                <TouchableOpacity style={styles.ideaButton} onPress={() => {}}>
+                <TouchableOpacity
+                  style={styles.ideaButton}
+                  onPress={() => navigation.navigate('Ideas')}>
                   <MaterialIcons name="lightbulb" size={45} color="black" />
                 </TouchableOpacity>
               </View>
