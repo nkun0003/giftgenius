@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect, useRef } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import {
   View,
   TextInput,
@@ -8,25 +8,27 @@ import {
   TouchableOpacity,
   Image,
   Alert,
-  KeyboardAvoidingView
+  KeyboardAvoidingView,
+  Platform
 } from 'react-native';
 import { useNavigation, useRoute } from '@react-navigation/native';
-import { Camera } from 'expo-camera';
+import { Camera, CameraView } from 'expo-camera';
 import PeopleContext from '../PeopleContext';
 
 export default function AddIdeaScreen() {
-  const [name, setName] = useState(''); // State for idea name
-  const [image, setImage] = useState(null); // State for the captured image
-  const [hasPermission, setHasPermission] = useState(null); // Camera permission state
-  const cameraRef = useRef(null); // Reference to the Camera component
+  const [hasPermission, setHasPermission] = useState(null);
+  const [cameraRef, setCameraRef] = useState(null);
+  const [facing, setFacing] = useState('back');
+  const [photo, setPhoto] = useState(null);
+  const [name, setName] = useState('');
 
   const navigation = useNavigation();
-  const route = useRoute(); // Route hook to get params
-  const { personId } = route.params; // Extract personId from route params
+  const route = useRoute();
+  const { personId, personName } = route.params; //extracting both personId and personName from route params
 
-  const { addIdeaToPerson } = useContext(PeopleContext); // Access context function to add ideas
+  const { addIdeaToPerson } = useContext(PeopleContext);
 
-  // This hook request camera permissions on component mount
+  // Request camera permission
   useEffect(() => {
     (async () => {
       const { status } = await Camera.requestCameraPermissionsAsync();
@@ -34,59 +36,73 @@ export default function AddIdeaScreen() {
     })();
   }, []);
 
+  // If permission is not granted
+  if (hasPermission === null) {
+    return <View />;
+  }
+  if (hasPermission === false) {
+    return <Text>No access to camera, please allow access</Text>;
+  }
+
   // Function to take a picture
   const takePicture = async () => {
-    if (cameraRef.current) {
-      const photo = await cameraRef.current.takePictureAsync();
-      setImage(photo.uri); //here saving the image URI to state
+    if (cameraRef) {
+      const data = await cameraRef.takePictureAsync();
+      setPhoto(data.uri); // Set the photo URI to display
     }
   };
 
-  // Function to save the idea
+  function toggleCameraFacing() {
+    setFacing((current) => (current === 'back' ? 'front' : 'back'));
+  }
+
   const saveIdea = () => {
-    if (!name || !image) {
+    if (!name || !photo) {
       Alert.alert('Error', 'Please provide a name and take a picture.');
       return;
     }
 
-    // Add the idea to the person in the context
-    addIdeaToPerson(personId, { name, image });
-    navigation.goBack(); // Navigate back to the previous screen
+    const newIdea = { id: Date.now().toString(), text: name, img: photo };
+    addIdeaToPerson(personId, newIdea);
+
+    navigation.goBack();
   };
 
-  if (hasPermission === null) {
-    return <View />; // If permission status is not determined yet, return empty view
-  }
-
-  if (hasPermission === false) {
-    return <Text>No access to camera</Text>; // Show error message if permission is denied
-  }
-
   return (
-    <KeyboardAvoidingView style={styles.container} behavior="padding">
-      <Text style={styles.title}>Add a Gift Idea</Text>
-
-      {/* Text input for the idea name */}
+    <KeyboardAvoidingView
+      style={styles.container}
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+      <Text style={styles.title}>Add Idea for {personName}</Text>
       <TextInput
         style={styles.inputText}
-        placeholder="Idea Name"
+        placeholder="Gift Idea"
         value={name}
         onChangeText={setName}
       />
+      <View style={styles.cameraContainer}>
+        {/* Camera view if no photo is taken yet */}
+        {!photo ? (
+          <CameraView style={styles.cameraView} facing={facing} ref={(ref) => setCameraRef(ref)}>
+            <View style={styles.cameraContainer}>
+              <TouchableOpacity style={styles.flipButton} onPress={toggleCameraFacing}>
+                <Text style={styles.flipText}> Flip </Text>
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.captureButton} onPress={takePicture}>
+                <Text style={styles.captureText}> Take Picture </Text>
+              </TouchableOpacity>
+            </View>
+          </CameraView>
+        ) : (
+          // If a photo is taken, display the preview
+          <View style={styles.previewContainer}>
+            <Image source={{ uri: photo }} style={styles.imagePreview} />
+            <TouchableOpacity style={styles.captureButton} onPress={() => setPhoto(null)}>
+              <Text style={styles.captureText}> Retake </Text>
+            </TouchableOpacity>
+          </View>
+        )}
+      </View>
 
-      {/* Camera preview or image preview */}
-      {image ? (
-        <Image source={{ uri: image }} style={styles.preview} />
-      ) : (
-        <Camera style={styles.camera} ref={cameraRef} />
-      )}
-
-      {/* Button to capture the image */}
-      <TouchableOpacity style={styles.captureButton} onPress={takePicture}>
-        <Text style={styles.buttonText}>Take Picture</Text>
-      </TouchableOpacity>
-
-      {/* Save and Cancel buttons */}
       <View style={styles.buttonContainer}>
         <Button title="Save" onPress={saveIdea} />
         <Button title="Cancel" onPress={() => navigation.goBack()} />
@@ -111,26 +127,47 @@ const styles = StyleSheet.create({
     padding: 10,
     marginBottom: 20
   },
-  camera: {
-    width: '100%',
-    height: 300,
-    marginBottom: 20
+  cameraContainer: {
+    flex: 1,
+    backgroundColor: 'transparent',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    margin: 20
+  },
+  cameraView: {
+    flex: 1
+  },
+  flipButton: {
+    alignSelf: 'flex-end',
+    alignItems: 'center',
+    backgroundColor: 'white',
+    borderRadius: 10,
+    padding: 10
+  },
+  flipText: {
+    fontSize: 18,
+    color: 'black'
   },
   captureButton: {
-    backgroundColor: 'blue',
-    padding: 15,
+    alignSelf: 'center',
     alignItems: 'center',
-    marginVertical: 10,
-    borderRadius: 5
+    backgroundColor: 'white',
+    borderRadius: 10,
+    padding: 15,
+    marginBottom: 20
   },
-  buttonText: {
-    color: 'white',
-    fontSize: 18
+  captureText: {
+    fontSize: 18,
+    color: 'black'
   },
-  preview: {
+  previewContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  imagePreview: {
     width: '100%',
-    height: 200,
-    marginBottom: 20,
+    height: '80%',
     resizeMode: 'contain'
   },
   buttonContainer: {
