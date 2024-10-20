@@ -24,5 +24,20 @@
     "web": {
       "favicon": "./assets/favicon.png"
     }
+  },
+  "ios": {
+    "supportsTablet": true,
+    "infoPlist": {
+      "NSMicrophoneUsageDescription": "Want to access your microphone because...",
+      "NSPhotoLibraryUsageDescription": "Want to access your photo library because...",
+      "NSCameraUsageDescription": "Want to use your camera because..."
+    }
+  },
+  "android": {
+    "adaptiveIcon": {
+      "foregroundImage": "./assets/adaptive-icon.png",
+      "backgroundColor": "#FFFFFF"
+    },
+    "permissions": ["CAMERA", "READ_EXTERNAL_STORAGE", "WRITE_EXTERNAL_STORAGE"]
   }
 }

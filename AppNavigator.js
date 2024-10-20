@@ -4,8 +4,9 @@ import { NavigationContainer } from '@react-navigation/native';
 import PeopleScreen from './screens/PeopleScreen';
 import AddPersonScreen from './screens/AddPersonScreen';
 import IdeaScreen from './screens/IdeaScreen';
+import AddIdeaScreen from './screens/AddIdeaScreen';
 
-const Stack = createStackNavigator(); //created "Stack" navigation container for stack navigation
+const Stack = createStackNavigator();
 
 export default function AppNavigator() {
   return (
@@ -14,6 +15,7 @@ export default function AppNavigator() {
         <Stack.Screen name="People" component={PeopleScreen} />
         <Stack.Screen name="Add Person" component={AddPersonScreen} />
         <Stack.Screen name="Ideas" component={IdeaScreen} />
+        <Stack.Screen name="Add Idea" component={AddIdeaScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );

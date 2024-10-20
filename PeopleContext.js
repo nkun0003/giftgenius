@@ -23,18 +23,54 @@ export const PeopleProvider = ({ children }) => {
 
   // Function to add a new person to the list.
   const addPerson = async (name, dob) => {
-    const newPerson = {
-      id: randomUUID(), // Generate a unique ID for the new person.
-      name, // The name of the person, passed as an argument.
-      dob // The date of birth of the person, passed as an argument.
-    };
-    const updatedPeople = [...people, newPerson]; // Create a new array with the existing people plus the new person added.
-    setPeople(updatedPeople); // Update the 'people' state with the new array.
-    await AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(updatedPeople)); // Save the updated people array to AsyncStorage.
+    const newPerson = { id: randomUUID(), name, dob, ideas: [] };
+    const updatedPeople = [...people, newPerson];
+    setPeople(updatedPeople);
+    await AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(updatedPeople));
   };
 
+  // This function to delete a person from the list.
+  const deletePerson = async (personId) => {
+    const updatedPeople = people.filter((p) => p.id !== personId);
+    setPeople(updatedPeople);
+    await AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(updatedPeople));
+  };
+
+  //Adds a new idea to a specific person based on personId.
+  const addIdeaToPerson = async (personId, idea) => {
+    const updatedPeople = people.map((p) =>
+      p.id === personId ? { ...p, ideas: [...p.ideas, idea] } : p
+    ); // here adding the new idea if the IDs match.
+    setPeople(updatedPeople);
+    await AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(updatedPeople)); // Save updated state to AsyncStorage.
+  };
+
+  //Delete an idea based on personId and the index of the idea.
+  const deleteIdeaFromPerson = async (personId, ideaIndex) => {
+    const updatedPeople = people.map((p) =>
+      p.id === personId ? { ...p, ideas: p.ideas.filter((_, index) => index !== ideaIndex) } : p
+    );
+    setPeople(updatedPeople);
+    await AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(updatedPeople)); // Save changes.
+  };
+
+  //Retrieve the list of ideas for a specific person.
+  const getIdeasByPersonId = (personId) => {
+    const person = people.find((p) => p.id === personId);
+    return person ? person.ideas : [];
+  };
+
+  // Added all functions inside the context value so they can be accessed by other components.
   return (
-    <PeopleContext.Provider value={{ people, addPerson }}>
+    <PeopleContext.Provider
+      value={{
+        people,
+        addPerson,
+        addIdeaToPerson,
+        deleteIdeaFromPerson,
+        getIdeasByPersonId,
+        deletePerson
+      }}>
       {/* 
       The PeopleContext.Provider component provides the current value of the context to all its children.
       The value prop contains the 'people' array and the 'addPerson' function, allowing components
