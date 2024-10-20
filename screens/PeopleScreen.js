@@ -41,14 +41,14 @@ export default function PeopleScreen() {
       style={styles.deleteButton}
       onPress={() =>
         Alert.alert(
-          'Delete Person', // Alert title
-          'Are you sure you want to delete this person?', // Alert message
+          'Delete Person', //this the alert title
+          'Are you sure you want to delete this person?', //alert message
           [
             { text: 'Cancel', style: 'cancel' }, // Cancel button
             {
               text: 'Delete',
               style: 'destructive',
-              onPress: () => handleDelete(personId) // Call handleDelete if confirmed
+              onPress: () => handleDelete(personId) //and this call handleDelete if confirmed
             }
           ]
         )
@@ -143,7 +143,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'red',
     justifyContent: 'center',
     alignItems: 'center',
-    width: 75,
+    width: 100,
     height: '100%'
   },
   fab: {
