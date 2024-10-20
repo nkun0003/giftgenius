@@ -78,8 +78,11 @@ export default function PeopleScreen() {
                   </View>
                   <TouchableOpacity
                     style={styles.ideaButton}
-                    onPress={
-                      () => navigation.navigate('Ideas', { personId: item.id }) //here just Passing personId to Ideas screen
+                    onPress={() =>
+                      navigation.navigate('Ideas', {
+                        personId: item.id,
+                        personName: item.name //here passing the person's name to the route params so that it can display the person name on the idea page
+                      })
                     }>
                     <MaterialIcons name="lightbulb" size={45} color="black" />
                   </TouchableOpacity>

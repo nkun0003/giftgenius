@@ -9,17 +9,18 @@ export default function IdeaScreen() {
   const { getIdeasByPersonId } = useContext(PeopleContext);
   const route = useRoute(); //Here accessing route params
   const navigation = useNavigation();
-  const { personId } = route.params; //extracting personId from route params
+  const { personId, personName } = route.params; //extracting both personId and personName from route params
 
   const ideas = getIdeasByPersonId(personId) || []; //Retrieve ideas for the specific person or use an empty array if no ideas exist
 
   return (
     <SafeAreaProvider>
       <SafeAreaView style={styles.container}>
-        <Text style={styles.title}>Gift Ideas</Text>
+        {/*now displaying the person's name in the title */}
+        <Text style={styles.title}>Ideas for {personName}</Text>
 
         {ideas.length === 0 ? (
-          <Text style={styles.noIdeasText}>No gift ideas added yet!</Text>
+          <Text style={styles.noIdeasText}>No Ideas Added Yet!</Text>
         ) : (
           <FlatList
             data={ideas}
@@ -58,15 +59,18 @@ const styles = StyleSheet.create({
     padding: 10
   },
   title: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    marginBottom: 10
+    fontSize: 30,
+    fontWeight: 'regular',
+    margin: 10
   },
   noIdeasText: {
-    textAlign: 'center',
-    fontSize: 16,
+    fontSize: 20,
     color: '#606060',
-    marginTop: 20
+    margin: 10,
+    borderWidth: 2,
+    borderColor: '#ddd',
+    padding: 10,
+    backgroundColor: 'white'
   },
   ideaItem: {
     flexDirection: 'row',
