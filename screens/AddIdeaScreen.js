@@ -96,7 +96,7 @@ export default function AddIdeaScreen() {
           // If a photo is taken, display the preview
           <View style={styles.previewContainer}>
             <Image source={{ uri: photo }} style={styles.imagePreview} />
-            <TouchableOpacity style={styles.captureButton} onPress={() => setPhoto(null)}>
+            <TouchableOpacity style={styles.retakeButton} onPress={() => setPhoto(null)}>
               <Text style={styles.captureText}> Retake </Text>
             </TouchableOpacity>
           </View>
@@ -138,7 +138,7 @@ const styles = StyleSheet.create({
     flex: 1
   },
   flipButton: {
-    alignSelf: 'flex-end',
+    alignSelf: 'flex-start',
     alignItems: 'center',
     backgroundColor: 'white',
     borderRadius: 10,
@@ -149,6 +149,16 @@ const styles = StyleSheet.create({
     color: 'black'
   },
   captureButton: {
+    alignSelf: 'flex-end',
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'white',
+    right: '15%',
+    borderRadius: 10,
+    padding: 15,
+    marginBottom: 20
+  },
+  retakeButton: {
     alignSelf: 'center',
     alignItems: 'center',
     backgroundColor: 'white',
@@ -172,6 +182,7 @@ const styles = StyleSheet.create({
   },
   buttonContainer: {
     flexDirection: 'row',
-    justifyContent: 'space-between'
+    justifyContent: 'space-between',
+    marginBottom: 45
   }
 });
