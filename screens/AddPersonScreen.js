@@ -63,6 +63,7 @@ export default function AddPersonScreen() {
           {/* Permanent calendar view for date selection */}
           <Text style={styles.calendarLabel}>Date of Birth:</Text>
           <Calendar
+            style={styles.calendar}
             onDayPress={selectDobDate} // Function called when a day is selected
             markedDates={{
               [dob]: { selected: true, marked: true, selectedColor: 'blue' }
@@ -74,8 +75,10 @@ export default function AddPersonScreen() {
           />
 
           {/* Buttons to save or cancel */}
-          <Button title="Save" onPress={savePerson} />
-          <Button title="Cancel" onPress={() => navigation.goBack()} />
+          <View style={styles.buttonContainer}>
+            <Button title="Save" onPress={savePerson} />
+            <Button title="Cancel" onPress={() => navigation.goBack()} />
+          </View>
 
           {/* Modal for missing name */}
           <Modal visible={isModalVisible} transparent={true} animationType="slide">
@@ -107,6 +110,12 @@ const styles = StyleSheet.create({
     padding: 10,
     color: '#A9A9A9'
   },
+  calendar: {
+    borderWidth: 1,
+    borderColor: '#ddd',
+    borderRadius: 5,
+    marginBottom: 100
+  },
   inputText: {
     borderBottomWidth: 1,
     borderColor: 'gray',
@@ -128,7 +137,7 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 0.25,
     shadowRadius: 4,
-    elevation: 5 // Shadow for Android
+    elevation: 5
   },
   modalText: {
     paddingTop: 20,
@@ -145,5 +154,10 @@ const styles = StyleSheet.create({
   closeButtonText: {
     color: 'white',
     fontSize: 16
+  },
+  buttonContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginTop: 100
   }
 });

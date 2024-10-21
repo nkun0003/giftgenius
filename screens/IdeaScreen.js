@@ -1,12 +1,20 @@
 import React, { useContext } from 'react';
-import { StyleSheet, FlatList, View, Text, SafeAreaView, TouchableOpacity } from 'react-native';
+import {
+  StyleSheet,
+  FlatList,
+  View,
+  Text,
+  SafeAreaView,
+  TouchableOpacity,
+  Image
+} from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { useRoute, useNavigation } from '@react-navigation/native';
 import { MaterialIcons } from '@expo/vector-icons';
 import PeopleContext from '../PeopleContext';
 
 export default function IdeaScreen() {
-  const { getIdeasByPersonId } = useContext(PeopleContext);
+  const { getIdeasByPersonId, deleteIdeaFromPerson } = useContext(PeopleContext);
   const route = useRoute(); //Here accessing route params
   const navigation = useNavigation();
   const { personId, personName } = route.params; //extracting both personId and personName from route params
@@ -16,7 +24,7 @@ export default function IdeaScreen() {
   return (
     <SafeAreaProvider>
       <SafeAreaView style={styles.container}>
-        {/*now displaying the person's name in the title */}
+        {/* Displaying the person's name in the title */}
         <Text style={styles.title}>Ideas for {personName}</Text>
 
         {ideas.length === 0 ? (
@@ -24,14 +32,20 @@ export default function IdeaScreen() {
         ) : (
           <FlatList
             data={ideas}
-            keyExtractor={(item, index) => index.toString()} //added index as key in case if ideas don't have unique IDs
+            keyExtractor={(item, index) => index.toString()}
             renderItem={({ item, index }) => (
               <View style={styles.ideaItem}>
-                <Text style={styles.ideaText}>{item.name}</Text>
+                {/* Displaying the image of the idea */}
+                <Image source={{ uri: item.img }} style={styles.image} />
+
+                {/* Displaying the name of the idea */}
+                <Text style={styles.ideaText}>{item.text}</Text>
+
+                {/* Delete Button */}
                 <TouchableOpacity
                   onPress={() => {
-                    // Delete idea and refresh the screen
-                    deleteIdeaFromPerson(personId, index);
+                    deleteIdeaFromPerson(personId, index); // Call delete function
+                    navigation.navigate('Ideas', { personId, personName }); // Refresh screen
                   }}>
                   <MaterialIcons name="delete" size={24} color="red" />
                 </TouchableOpacity>
@@ -43,7 +57,7 @@ export default function IdeaScreen() {
         {/* Floating Action Button */}
         <TouchableOpacity
           style={styles.fab}
-          onPress={() => navigation.navigate('Add Idea', { personId })}>
+          onPress={() => navigation.navigate('Add Idea', { personId, personName })}>
           <MaterialIcons name="add" size={60} color="white" />
         </TouchableOpacity>
       </SafeAreaView>
@@ -84,6 +98,12 @@ const styles = StyleSheet.create({
     fontSize: 18,
     flex: 1,
     marginRight: 10
+  },
+  image: {
+    width: 100,
+    height: 100,
+    marginRight: 10,
+    borderRadius: 5
   },
   fab: {
     position: 'absolute',
