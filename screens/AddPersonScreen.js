@@ -114,7 +114,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: '#ddd',
     borderRadius: 5,
-    marginBottom: 100
+    marginBottom: 20
   },
   inputText: {
     borderBottomWidth: 1,
@@ -157,7 +157,6 @@ const styles = StyleSheet.create({
   },
   buttonContainer: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginTop: 100
+    justifyContent: 'space-between'
   }
 });
