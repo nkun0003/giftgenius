@@ -14,6 +14,8 @@ import {
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { Camera, CameraView } from 'expo-camera';
 import PeopleContext from '../PeopleContext';
+import { MaterialIcons } from '@expo/vector-icons';
+import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 
 export default function AddIdeaScreen() {
   const [hasPermission, setHasPermission] = useState(null);
@@ -85,10 +87,10 @@ export default function AddIdeaScreen() {
           <CameraView style={styles.cameraView} facing={facing} ref={(ref) => setCameraRef(ref)}>
             <View style={styles.cameraContainer}>
               <TouchableOpacity style={styles.flipButton} onPress={toggleCameraFacing}>
-                <Text style={styles.flipText}> Flip </Text>
+                <MaterialIcons name="cameraswitch" size={24} color="black" />
               </TouchableOpacity>
               <TouchableOpacity style={styles.captureButton} onPress={takePicture}>
-                <Text style={styles.captureText}> Take Picture </Text>
+                <MaterialIcons name="camera-alt" size={30} color="black" />
               </TouchableOpacity>
             </View>
           </CameraView>
@@ -97,7 +99,7 @@ export default function AddIdeaScreen() {
           <View style={styles.previewContainer}>
             <Image source={{ uri: photo }} style={styles.imagePreview} />
             <TouchableOpacity style={styles.retakeButton} onPress={() => setPhoto(null)}>
-              <Text style={styles.captureText}> Retake </Text>
+              <MaterialCommunityIcons name="camera-retake" size={40} color="black" />
             </TouchableOpacity>
           </View>
         )}
@@ -153,18 +155,19 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: 'white',
-    right: '15%',
+    right: '25%',
     borderRadius: 10,
-    padding: 15,
-    marginBottom: 20
+    padding: 10,
+    marginBottom: 10
   },
   retakeButton: {
     alignSelf: 'center',
     alignItems: 'center',
     backgroundColor: 'white',
+    borderWidth: 1,
     borderRadius: 10,
-    padding: 15,
-    marginBottom: 20
+    marginVertical: 15,
+    padding: 10
   },
   captureText: {
     fontSize: 18,
@@ -183,6 +186,6 @@ const styles = StyleSheet.create({
   buttonContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginBottom: 45
+    marginBottom: 50
   }
 });

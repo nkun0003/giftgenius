@@ -137,10 +137,13 @@ const styles = StyleSheet.create({
     padding: 5
   },
   savedText: {
-    textAlign: 'center',
+    fontSize: 20,
     color: '#606060',
+    margin: 10,
+    borderWidth: 2,
+    borderColor: '#ddd',
     padding: 10,
-    fontSize: 15
+    backgroundColor: 'white'
   },
   deleteButton: {
     backgroundColor: 'red',
