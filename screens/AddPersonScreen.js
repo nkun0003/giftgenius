@@ -67,7 +67,7 @@ export default function AddPersonScreen() {
             onDayPress={selectDobDate} // Function called when a day is selected
             markedDates={{
               [dob]: { selected: true, marked: true, selectedColor: 'blue' }
-            }} // Highlight the selected date
+            }} //this to highlight the selected date
             theme={{
               todayTextColor: 'red',
               arrowColor: 'blue'

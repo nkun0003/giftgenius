@@ -19,7 +19,7 @@ export const PeopleProvider = ({ children }) => {
       if (savedPeople) setPeople(JSON.parse(savedPeople)); // If saved data exists, parse the JSON string into a JavaScript array and update the 'people' state.
     };
     loadPeople(); // Call loadPeople to load the data from AsyncStorage.
-  }, []); // Empty dependency array ensures this effect only runs once when the component mounts.
+  }, []); //empty dependency array ensures this effect only runs once when the component mounts.
 
   // Function to add a new person to the list.
   const addPerson = async (name, dob) => {
@@ -60,7 +60,7 @@ export const PeopleProvider = ({ children }) => {
     return person ? person.ideas : [];
   };
 
-  // Added all functions inside the context value so they can be accessed by other components.
+  //added all functions inside the context value so they can be accessed by other components.
   return (
     <PeopleContext.Provider
       value={{
@@ -83,5 +83,5 @@ export const PeopleProvider = ({ children }) => {
   );
 };
 
+//exporting PeopleContext so other components can consume it and access the shared state
 export default PeopleContext;
-// Exporting PeopleContext so other components can consume it and access the shared state.

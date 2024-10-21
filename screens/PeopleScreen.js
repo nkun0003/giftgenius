@@ -25,7 +25,7 @@ const formatDate = (dob) => {
 
 export default function PeopleScreen() {
   const navigation = useNavigation();
-  const { people, deletePerson } = useContext(PeopleContext); // Context usage
+  const { people, deletePerson } = useContext(PeopleContext); // here using context
   const [isDeleting, setIsDeleting] = useState(false); // State to handle delete operations
 
   // Handle Delete Person - Async function
